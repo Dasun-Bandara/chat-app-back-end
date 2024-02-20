@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.sql.SQLException;
@@ -15,8 +16,14 @@ import java.sql.SQLException;
 @Configuration
 @EnableWebMvc
 @ComponentScan
-@PropertySource("/application.properties")
+@PropertySource("classpath:/application.properties")
 public class WebAppConfig {
+
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor(){
+        return new MethodValidationPostProcessor();
+    }
+
     @Bean(destroyMethod = "close")
     public HikariDataSource pool(Environment env) throws SQLException {
         HikariConfig config = new HikariConfig();
